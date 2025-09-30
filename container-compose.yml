@@ -1,7 +1,7 @@
 # compose.yaml  (works with podman-compose and docker compose)
 services:
   nginx:
-    image: nginx:alpine
+    image: docker.io/library/nginx:alpine
     container_name: reverseproxy
     depends_on:
       custom-template:
