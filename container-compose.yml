@@ -15,6 +15,7 @@ services:
     container_name: custom-template
     image: mcr.microsoft.com/azure-cognitive-services/form-recognizer/custom-template-3.1:latest
     restart: always
+    user: "0:0"
     environment:
       EULA: accept
       APIKEY: ${FORM_RECOGNIZER_KEY}
@@ -62,4 +63,4 @@ services:
         target: /onprem_db
     ports:
       - "5001:5001"
-    user: "1000:1000"
+    user: "0:0"
