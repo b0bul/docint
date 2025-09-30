@@ -1,0 +1,17 @@
+create docint instance in azure f0 free tier
+
+```
+NGINX_CONF_FILE=/home/vagrant/dev/ai/docint/nginx.conf
+
+# Form Recognizer Custom Template container
+FORM_RECOGNIZER_KEY=<key>
+FORM_RECOGNIZER_ENDPOINT_URI=https://<name>.cognitiveservices.azure.com/
+
+# Shared and output mount paths for custom-template
+SHARED_MOUNT_PATH=/home/vagrant/dev/ai/docint/shared
+OUTPUT_MOUNT_PATH=/home/vagrant/dev/ai/docint/logs
+
+# AI Studio container
+FILE_MOUNT_PATH=/home/vagrant/dev/ai/docint/onprem_folder
+DB_MOUNT_PATH=/home/vagrant/dev/ai/docint/onprem_db
+```
