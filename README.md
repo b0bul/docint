@@ -1,5 +1,10 @@
 create docint instance in azure f0 free tier
 
+setup
+```bash
+mkdir shared logs onprem_folder onprem_db
+```
+
 ```
 NGINX_CONF_FILE=/home/vagrant/dev/ai/docint/nginx.conf
 
