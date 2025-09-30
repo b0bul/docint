@@ -4,6 +4,11 @@ setup
 ```bash
 mkdir shared logs onprem_folder onprem_db
 ```
+run
+```bash
+podman compose down -v --remove-orphans -t 20
+podman compose --env-file .env up -d 
+```
 
 ```
 NGINX_CONF_FILE=/home/vagrant/dev/ai/docint/nginx.conf
