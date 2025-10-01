@@ -1,0 +1,4497 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Form Recognizer: Custom Form",
+    "description": "Form Recognizer extracts information from forms and images into structured data.",
+    "version": "2023-07-31"
+  },
+  "paths": {
+    "/authentication/renew": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/ContainerLiveness": {
+      "get": {
+        "tags": [
+          "HealthCheck"
+        ],
+        "responses": {
+          "200": {
+            "description": "Service is healthy."
+          },
+          "503": {
+            "description": "Service is unhealthy."
+          }
+        }
+      }
+    },
+    "/ContainerReadiness": {
+      "get": {
+        "tags": [
+          "HealthCheck"
+        ],
+        "responses": {
+          "200": {
+            "description": "Service is ready."
+          },
+          "503": {
+            "description": "Service is not ready to serve request."
+          }
+        }
+      }
+    },
+    "/formrecognizer/documentModels/{modelId}:analyze": {
+      "post": {
+        "tags": [
+          "Analyze"
+        ],
+        "summary": "Analyzes document with model.",
+        "description": "See https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-2023-07-31 for detailed information.",
+        "parameters": [
+          {
+            "name": "modelId",
+            "in": "path",
+            "description": "Unique model name.",
+            "required": true
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "Requested API version.",
+            "required": true,
+            "schema": {
+              "enum": [
+                "2023-07-31"
+              ],
+              "type": "string",
+              "default": "2023-07-31"
+            }
+          },
+          {
+            "name": "pages",
+            "in": "query",
+            "description": "List of 1-based page numbers to analyze. Ex. \"1-3,5,7-9\""
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "description": "Locale hint for text recognition and document analysis. Value may contain only the language code (ex. \"en\", \"fr\") or BCP 47 language tag (ex. \"en-US\")."
+          },
+          {
+            "name": "stringIndexType",
+            "in": "query",
+            "description": "Method used to compute string offset and length. Will default to textElements if not specified",
+            "schema": {
+              "enum": [
+                "textElements",
+                "unicodeCodePoint",
+                "utf16CodeUnit"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "urlSource": {
+                    "type": "file",
+                    "description": "image URL",
+                    "format": "url",
+                    "example": "http://example.com/images/test.jpg"
+                  }
+                }
+              }
+            },
+            "application/octet-stream": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "description": "raw image binary",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Request is queued successfully."
+          }
+        }
+      }
+    },
+    "/formrecognizer/documentModels/{modelId}/analyzeResults/{rId}": {
+      "get": {
+        "tags": [
+          "Analyze"
+        ],
+        "summary": "Gets the result of document analysis.",
+        "description": "See https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-2023-07-31 for response format and detailed information.",
+        "parameters": [
+          {
+            "name": "rId",
+            "in": "path",
+            "description": "Analyze operation result ID, contained in the Analyze operation's 'Operation-Location' response header.",
+            "required": true
+          },
+          {
+            "name": "modelId",
+            "in": "path",
+            "description": "Unique model name.",
+            "required": true
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "Requested API version.",
+            "required": true,
+            "schema": {
+              "enum": [
+                "2023-07-31"
+              ],
+              "type": "string",
+              "default": "2023-07-31"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/formrecognizer/documentModels/{modelId}:syncAnalyze": {
+      "post": {
+        "tags": [
+          "Analyze"
+        ],
+        "summary": "Analyze document synchronously",
+        "description": "See https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-2023-07-31 for detailed information.",
+        "parameters": [
+          {
+            "name": "modelId",
+            "in": "path",
+            "description": "Unique model name.",
+            "required": true
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "Requested API version.",
+            "required": true,
+            "schema": {
+              "enum": [
+                "2023-07-31"
+              ],
+              "type": "string",
+              "default": "2023-07-31"
+            }
+          },
+          {
+            "name": "pages",
+            "in": "query",
+            "description": "List of 1-based page numbers to analyze. Ex. \"1-3,5,7-9\""
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "description": "Locale hint for text recognition and document analysis. Value may contain only the language code (ex. \"en\", \"fr\") or BCP 47 language tag (ex. \"en-US\")."
+          },
+          {
+            "name": "stringIndexType",
+            "in": "query",
+            "description": "Method used to compute string offset and length. Will default to textElements if not specified",
+            "schema": {
+              "enum": [
+                "textElements",
+                "unicodeCodePoint",
+                "utf16CodeUnit"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "urlSource": {
+                    "type": "file",
+                    "description": "image URL",
+                    "format": "url",
+                    "example": "http://example.com/images/test.jpg"
+                  }
+                }
+              }
+            },
+            "application/octet-stream": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "description": "raw image binary",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/actions/modelReferences/list": {
+      "get": {
+        "tags": [
+          "ModelActions"
+        ],
+        "operationId": "GetModelReferencesListActionAsync",
+        "parameters": [
+          {
+            "name": "nextLink",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "maxItemsPerPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/actions/modelReferences/{modelId}": {
+      "delete": {
+        "tags": [
+          "ModelActions"
+        ],
+        "operationId": "DeleteModelReferenceActionAsync",
+        "parameters": [
+          {
+            "name": "modelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ModelActions"
+        ],
+        "operationId": "GetModelReferenceActionAsync",
+        "parameters": [
+          {
+            "name": "modelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/actions/models/{internalModelId}": {
+      "delete": {
+        "tags": [
+          "ModelActions"
+        ],
+        "operationId": "DeleteModelActionAsync",
+        "parameters": [
+          {
+            "name": "internalModelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/actions/models/{internalModelId}/list": {
+      "get": {
+        "tags": [
+          "ModelActions"
+        ],
+        "operationId": "GetModelContentListActionAsync",
+        "parameters": [
+          {
+            "name": "internalModelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/actions/models/list": {
+      "get": {
+        "tags": [
+          "ModelActions"
+        ],
+        "operationId": "GetModelsListActionAsync",
+        "parameters": [
+          {
+            "name": "nextLink",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "maxItemsPerPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/actions/models/summary": {
+      "get": {
+        "tags": [
+          "ModelActions"
+        ],
+        "operationId": "GetModelsSummaryActionAsync",
+        "parameters": [
+          {
+            "name": "nextLink",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "maxItemsPerPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/chat:build": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "operationId": "BuildChatFromDocumentAsync",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/chat/{chatId}": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "operationId": "GetChatAsync",
+        "parameters": [
+          {
+            "name": "chatId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/chat/{chatId}:complete": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "operationId": "CompleteChatAsync",
+        "parameters": [
+          {
+            "name": "chatId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/chat__TODO__:build": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "operationId": "BuildChatAsync",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildChatRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildChatRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildChatRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildChatRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/classificationProjects": {
+      "get": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "ListClassificationTasksAsync",
+        "parameters": [
+          {
+            "name": "nextLink",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/classificationProjects/{projectId}": {
+      "delete": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "DeleteClassificationTaskAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "GetClassificationTaskAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "UpdateClassificationTaskAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateClassificationTaskRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateClassificationTaskRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateClassificationTaskRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateClassificationTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "CreateClassificationTaskAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateClassificationTaskRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateClassificationTaskRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateClassificationTaskRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateClassificationTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/classificationProjects/{projectId}/docTypes": {
+      "get": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "ListLabelFilesAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nextLink",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/classificationProjects/{projectId}/docTypes/{docTypeName}": {
+      "delete": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "DeleteLabelFileAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "docTypeName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "GetLabelFileAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "docTypeName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "CreateLabelFileAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "docTypeName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/classificationProjects/{projectId}/documents": {
+      "get": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "ListDocumentsAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nextLink",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/classificationProjects/{projectId}/documents/{documentName}": {
+      "delete": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "DeleteDocumentAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "GetDocumentAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "CreateDocumentAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/classificationProjects/{projectId}/documents/{documentName}/ocr": {
+      "get": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "GetOcrFileAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/classificationProjects/{projectId}/documents/{documentName}/ocr:analyze": {
+      "post": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "CreateOcrFileAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOcrFileRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOcrFileRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOcrFileRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOcrFileRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/classificationProjects/{projectId}/documents/{documentName}/ocr/operations": {
+      "get": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "ListOcrCreationOperations",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nextLink",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/classificationProjects/{projectId}/documents/{documentName}/ocr/operations/{operationId}": {
+      "get": {
+        "tags": [
+          "ClassificationProject"
+        ],
+        "operationId": "GetOcrCreationOperation",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "operationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/documentClassifiers": {
+      "get": {
+        "tags": [
+          "Classifiers"
+        ],
+        "operationId": "GetClassifiersAsync",
+        "parameters": [
+          {
+            "name": "nextLink",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/documentClassifiers:build": {
+      "post": {
+        "tags": [
+          "Classifiers"
+        ],
+        "operationId": "BuildClassifierAsync",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildClassifierRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildClassifierRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildClassifierRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildClassifierRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/documentClassifiers/{classifierId}": {
+      "delete": {
+        "tags": [
+          "Classifiers"
+        ],
+        "operationId": "DeleteClassifierAsync",
+        "parameters": [
+          {
+            "name": "classifierId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Classifiers"
+        ],
+        "operationId": "GetClassifierAsync",
+        "parameters": [
+          {
+            "name": "classifierId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/documentModels": {
+      "get": {
+        "tags": [
+          "Models"
+        ],
+        "operationId": "GetModelsAsync",
+        "parameters": [
+          {
+            "name": "nextLink",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/documentModels:build": {
+      "post": {
+        "tags": [
+          "Models"
+        ],
+        "operationId": "BuildModelAsync",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuildRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/documentModels:compose": {
+      "post": {
+        "tags": [
+          "Models"
+        ],
+        "operationId": "ComposeModelsAsync",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComposeRequestV3"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComposeRequestV3"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComposeRequestV3"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComposeRequestV3"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/documentModels/{modelId}": {
+      "delete": {
+        "tags": [
+          "Models"
+        ],
+        "operationId": "DeleteModelAsync",
+        "parameters": [
+          {
+            "name": "modelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Models"
+        ],
+        "operationId": "GetModelAsync",
+        "parameters": [
+          {
+            "name": "modelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/info": {
+      "get": {
+        "tags": [
+          "Resource"
+        ],
+        "operationId": "GetInfoAsync",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects": {
+      "get": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "GetLabelingTasksAsync",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nextLink",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}": {
+      "delete": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "DeleteLabelingTaskAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "GetLabelingTaskAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "UpdateLabelingTaskAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabelingTaskRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabelingTaskRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabelingTaskRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLabelingTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "CreateLabelingTaskAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabelingTaskRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabelingTaskRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabelingTaskRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabelingTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}/labels": {
+      "get": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "ListLabelingTaskLabelsAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nextLink",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}/labels/{labelId}": {
+      "delete": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "DeleteLabelingTaskLabelAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "labelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "GetLabelingTaskLabelAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "labelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "PutLabelingTaskLabelAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "labelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}/labels/{labelId}:analyze": {
+      "post": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "AutoLabelLabelingTaskAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "labelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "modelId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabelingTaskAutoLabelRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabelingTaskAutoLabelRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabelingTaskAutoLabelRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLabelingTaskAutoLabelRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}/labels/{labelId}/document": {
+      "get": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "GetLabelingTaskDocumentAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "labelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "CreateLabelingTaskDocumentAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "labelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}/labels/{labelId}/ocr": {
+      "get": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "GetLabelingTaskOcrAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "labelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "PutLabelingTaskOcrAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "labelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}/labels/{labelId}/operations": {
+      "get": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "ListLabelingTaskAutoLabelOperationsAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "labelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}/labels/{labelId}/operations/{operationId}": {
+      "get": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "GetLabelingTaskAutoLabelOperationAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "labelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "operationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}/operations": {
+      "get": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "ListUpgradeLabelingTaskOperationsAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nextLink",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}/operations/{operationId}": {
+      "get": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "GetUpgradeLabelingTaskOperationAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "operationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}/schema": {
+      "delete": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "DeleteLabelingTaskSchemaAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "GetLabelingTaskSchemaAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "PutLabelingTaskSchemaAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}/schema:edit": {
+      "post": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "EditLabelingTaskSchemaAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditLabelingTaskSchemaRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditLabelingTaskSchemaRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditLabelingTaskSchemaRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditLabelingTaskSchemaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}/schema/operations": {
+      "get": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "ListLabelingTaskSchemaOperationsAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}/schema/operations/{operationId}": {
+      "get": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "GetLabelingTaskSchemaOperationAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "operationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/labelingProjects/{projectId}:upgrade": {
+      "post": {
+        "tags": [
+          "LabelingProject"
+        ],
+        "operationId": "UpgradeLabelingTaskAsync",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpgradeLabelingTaskRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpgradeLabelingTaskRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpgradeLabelingTaskRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpgradeLabelingTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/operations": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "GetOperationsAsync",
+        "parameters": [
+          {
+            "name": "nextLink",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/operations/{operationId}": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "GetOperationAsync",
+        "parameters": [
+          {
+            "name": "operationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/{pathPrefix}/operations/{operationId}:cancel": {
+      "post": {
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "CancelOperationAsync",
+        "parameters": [
+          {
+            "name": "operationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pathPrefix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/ready": {
+      "get": {
+        "tags": [
+          "Ready"
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response results in a ready response (200)."
+          },
+          "503": {
+            "description": "A failed response results in an unready response (503)."
+          }
+        }
+      }
+    },
+    "/records/usage-logs": {
+      "get": {
+        "tags": [
+          "DisconnectedUsage"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommerceUsageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommerceUsageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/records/usage-logs/{month}/{year}": {
+      "get": {
+        "tags": [
+          "DisconnectedUsage"
+        ],
+        "parameters": [
+          {
+            "name": "month",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommerceUsageResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommerceUsageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/status": {
+      "get": {
+        "tags": [
+          "Status"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceStatus"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/webhook/batchnotification": {
+      "post": {
+        "tags": [
+          "InternalWebHook"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchNotificationWebhookRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchNotificationWebhookRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchNotificationWebhookRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchNotificationWebhookRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/webhook/batchoutput": {
+      "post": {
+        "tags": [
+          "InternalWebHook"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddressObject": {
+        "type": "object",
+        "properties": {
+          "houseNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "road": {
+            "type": "string",
+            "nullable": true
+          },
+          "poBox": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryRegion": {
+            "type": "string",
+            "nullable": true
+          },
+          "streetAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "cityDistrict": {
+            "type": "string",
+            "nullable": true
+          },
+          "stateDistrict": {
+            "type": "string",
+            "nullable": true
+          },
+          "suburb": {
+            "type": "string",
+            "nullable": true
+          },
+          "house": {
+            "type": "string",
+            "nullable": true
+          },
+          "level": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AzureBlobContentSource": {
+        "type": "object",
+        "properties": {
+          "containerUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "prefix": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AzureBlobFileListContentSource": {
+        "type": "object",
+        "properties": {
+          "containerUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "fileList": {
+            "type": "string",
+            "nullable": true
+          },
+          "prefix": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BatchNotificationWebhookRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "$ref": "#/components/schemas/JToken"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BoundingPolygon": {
+        "type": "object",
+        "properties": {
+          "length": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "minX": {
+            "type": "number",
+            "format": "float",
+            "readOnly": true
+          },
+          "maxX": {
+            "type": "number",
+            "format": "float",
+            "readOnly": true
+          },
+          "minY": {
+            "type": "number",
+            "format": "float",
+            "readOnly": true
+          },
+          "maxY": {
+            "type": "number",
+            "format": "float",
+            "readOnly": true
+          },
+          "isQuadrilateral": {
+            "type": "boolean",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BoundingRegion": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "polygon": {
+            "$ref": "#/components/schemas/BoundingPolygon"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BuildChatRequest": {
+        "type": "object",
+        "properties": {
+          "chatId": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "azureBlobSource": {
+            "$ref": "#/components/schemas/AzureBlobContentSource"
+          },
+          "azureBlobFileListSource": {
+            "$ref": "#/components/schemas/AzureBlobFileListContentSource"
+          },
+          "base64Source": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BuildClassifierRequest": {
+        "type": "object",
+        "properties": {
+          "classifierId": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "docTypes": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/DocumentTypeSource"
+            },
+            "nullable": true
+          },
+          "baseClassifierId": {
+            "type": "string",
+            "nullable": true
+          },
+          "allowOverwrite": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BuildMode": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "BuildRequest": {
+        "type": "object",
+        "properties": {
+          "modelId": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "buildMode": {
+            "$ref": "#/components/schemas/BuildMode"
+          },
+          "azureBlobSource": {
+            "$ref": "#/components/schemas/AzureBlobContentSource"
+          },
+          "base64Source": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "azureBlobFileListSource": {
+            "$ref": "#/components/schemas/AzureBlobFileListContentSource"
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "allowOverwrite": {
+            "type": "boolean"
+          },
+          "maxTrainingHours": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BuildSourceKind": {
+        "enum": [
+          "unknown",
+          "azureBlob",
+          "azureBlobFileList",
+          "prebuilt"
+        ],
+        "type": "string"
+      },
+      "ChatCitation": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "filePath": {
+            "type": "string",
+            "nullable": true
+          },
+          "boundingRegions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BoundingRegion"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ChatCompletionRequest": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatMessage"
+            },
+            "nullable": true
+          },
+          "stream": {
+            "type": "boolean"
+          },
+          "documents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ChatMessage": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "citations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatCitation"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClassificationTaskStorageAccount": {
+        "type": "object",
+        "properties": {
+          "containerUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "prefix": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CommerceUsageResponse": {
+        "type": "object",
+        "properties": {
+          "apiType": {
+            "type": "string",
+            "nullable": true
+          },
+          "serviceName": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "meters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommitmentTierBillingMeter"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CommitmentTierBillingMeter": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "billedUnit": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ComponentModelRequest": {
+        "type": "object",
+        "properties": {
+          "modelId": {
+            "type": "string",
+            "nullable": true
+          },
+          "docType": {
+            "type": "string",
+            "nullable": true
+          },
+          "maxDocumentsToAnalyze": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "confidenceThreshold": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "queryFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ComposeRequestV3": {
+        "type": "object",
+        "properties": {
+          "modelId": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "componentModels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ComponentModelRequest"
+            },
+            "nullable": true
+          },
+          "docTypes": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ComponentModelRequest"
+            },
+            "nullable": true
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "classifierId": {
+            "type": "string",
+            "nullable": true
+          },
+          "split": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CopyProject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "storageAccount": {
+            "$ref": "#/components/schemas/LabelingTaskStorageAccount"
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateClassificationTaskRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "kind": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "storageAccount": {
+            "$ref": "#/components/schemas/ClassificationTaskStorageAccount"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateLabelingTaskAutoLabelRequest": {
+        "type": "object",
+        "properties": {
+          "convertOnly": {
+            "type": "boolean"
+          },
+          "sas": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateLabelingTaskRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "kind": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "storageAccount": {
+            "$ref": "#/components/schemas/LabelingTaskStorageAccount"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateOcrFileRequest": {
+        "type": "object",
+        "properties": {
+          "sas": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CurrencyObject": {
+        "type": "object",
+        "properties": {
+          "currencySymbol": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "currencyCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DocumentSignatureType": {
+        "enum": [
+          "unknown",
+          "signed",
+          "unsigned"
+        ],
+        "type": "string"
+      },
+      "DocumentSpan": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "length": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "start": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "end": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DocumentTypeSource": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/BuildSourceKind"
+          },
+          "prebuiltSource": {
+            "type": "string",
+            "nullable": true
+          },
+          "azureBlobSource": {
+            "$ref": "#/components/schemas/AzureBlobContentSource"
+          },
+          "azureBlobFileListSource": {
+            "$ref": "#/components/schemas/AzureBlobFileListContentSource"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditLabelingTaskSchemaRequest": {
+        "type": "object",
+        "properties": {
+          "operations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EditSchemaAction"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditSchemaAction": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/EditSchemaKind"
+          },
+          "oldField": {
+            "type": "string",
+            "nullable": true
+          },
+          "newField": {
+            "type": "string",
+            "nullable": true
+          },
+          "addField": {
+            "type": "string",
+            "nullable": true
+          },
+          "deleteField": {
+            "type": "string",
+            "nullable": true
+          },
+          "editField": {
+            "type": "string",
+            "nullable": true
+          },
+          "currentField": {
+            "type": "string",
+            "nullable": true
+          },
+          "afterField": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "docType": {
+            "type": "string",
+            "nullable": true
+          },
+          "fieldSchema": {
+            "$ref": "#/components/schemas/FieldSchema"
+          },
+          "fieldLabel": {
+            "$ref": "#/components/schemas/FieldLabel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditSchemaKind": {
+        "enum": [
+          "renameField",
+          "addField",
+          "deleteField",
+          "editField",
+          "moveField",
+          "editProperties",
+          "findField",
+          "insertField"
+        ],
+        "type": "string"
+      },
+      "FieldLabel": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/FieldValueType"
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "boundingRegions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BoundingRegion"
+            },
+            "nullable": true
+          },
+          "spans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DocumentSpan"
+            },
+            "nullable": true
+          },
+          "confidence": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": { },
+            "nullable": true
+          },
+          "kind": {
+            "$ref": "#/components/schemas/FieldLabelKind"
+          },
+          "valueString": {
+            "type": "string",
+            "nullable": true
+          },
+          "valueDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "valueTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "valuePhoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "valueNumber": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "valueInteger": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "valueSelectionMark": {
+            "$ref": "#/components/schemas/SelectionMarkState"
+          },
+          "valueSignature": {
+            "$ref": "#/components/schemas/DocumentSignatureType"
+          },
+          "valueCountryRegion": {
+            "type": "string",
+            "nullable": true
+          },
+          "valueCurrency": {
+            "$ref": "#/components/schemas/CurrencyObject"
+          },
+          "valueArray": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldLabel"
+            },
+            "nullable": true
+          },
+          "valueObject": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/FieldLabel"
+            },
+            "nullable": true
+          },
+          "valueAddress": {
+            "$ref": "#/components/schemas/AddressObject"
+          },
+          "valueBoolean": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "valueStringArray": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "valueSelectionGroup": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FieldLabelKind": {
+        "enum": [
+          "confirmed",
+          "corrected",
+          "predicted"
+        ],
+        "type": "string"
+      },
+      "FieldSchema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/FieldValueType"
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/FieldSchema"
+            },
+            "nullable": true
+          },
+          "items": {
+            "$ref": "#/components/schemas/FieldSchema"
+          },
+          "enum": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FieldValueType": {
+        "enum": [
+          "string",
+          "date",
+          "time",
+          "phoneNumber",
+          "number",
+          "integer",
+          "selectionMark",
+          "countryRegion",
+          "currency",
+          "signature",
+          "array",
+          "object",
+          "address",
+          "boolean",
+          "stringArray",
+          "selectionGroup"
+        ],
+        "type": "string"
+      },
+      "JToken": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/JToken"
+        }
+      },
+      "LabelingTaskStorageAccount": {
+        "type": "object",
+        "properties": {
+          "containerUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "prefix": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SelectionMarkState": {
+        "enum": [
+          "unknown",
+          "selected",
+          "unselected"
+        ],
+        "type": "string"
+      },
+      "ServiceStatus": {
+        "type": "object",
+        "properties": {
+          "service": {
+            "type": "string",
+            "nullable": true
+          },
+          "apiStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "apiStatusMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateClassificationTaskRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "storageAccount": {
+            "$ref": "#/components/schemas/ClassificationTaskStorageAccount"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateLabelingTaskRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "storageAccount": {
+            "$ref": "#/components/schemas/LabelingTaskStorageAccount"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpgradeLabelingTaskRequest": {
+        "type": "object",
+        "properties": {
+          "copyProject": {
+            "$ref": "#/components/schemas/CopyProject"
+          },
+          "destApiVersion": {
+            "type": "string",
+            "nullable": true
+          },
+          "sas": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Analyze"
+    }
+  ]
+}
