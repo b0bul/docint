@@ -1,5 +1,12 @@
 create docint instance in azure f0 free tier
 
+ai-studio document intellignece service endpoint is http://localhost:5000
+
+e.g. endpoints
+```
+http://localhost:5000/api-docs/index.html
+```
+
 setup
 ```bash
 mkdir shared logs onprem_folder onprem_db
