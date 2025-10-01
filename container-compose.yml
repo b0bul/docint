@@ -55,10 +55,10 @@ services:
 
       # ASP.NET Core/DI config uses double underscores in env vars:
       AzureCognitiveServiceLayoutHost: http://layout:5000
-      Logging:Console:LogLevel:Default: Information
+      Logging:Console:LogLevel:Default: Debug
       SharedRootFolder: /share
-      Mounts__Shared: /share
-      Mounts__Output: /logs
+      Mounts:Shared: /share
+      Mounts:Output: /logs
       # If you also run the Layout container:
       # AzureCognitiveServiceLayoutHost: http://layout:5000
     volumes:
@@ -70,6 +70,8 @@ services:
         source: ${OUTPUT_MOUNT_PATH}
         target: /logs
         # SELinux hosts: ${OUTPUT_MOUNT_PATH}:/logs:z
+    ports:
+      - "6789:5000"
     expose:
       - "5000"
     networks:
