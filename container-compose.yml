@@ -1,4 +1,8 @@
 # compose.yaml  (works with podman-compose and docker compose)
+networks:
+  app-network:
+    driver: bridge
+
 services:
   nginx:
     image: docker.io/library/nginx:alpine
@@ -10,11 +14,39 @@ services:
       - ${NGINX_CONF_FILE}:/etc/nginx/nginx.conf
     ports:
       - "5000:5000"
+    networks:
+      - app-network
+
+  layout:
+    container_name: layout
+    image: mcr.microsoft.com/azure-cognitive-services/form-recognizer/layout-3.1:latest
+    environment:
+      eula: accept
+      apikey: ${FORM_RECOGNIZER_KEY}
+      billing: ${FORM_RECOGNIZER_ENDPOINT_URI}
+      Logging:Console:LogLevel:Default: Information
+      SharedRootFolder: /share
+      Mounts:Shared: /share
+      Mounts:Output: /logs
+    volumes:
+      - type: bind
+        source: ${SHARED_MOUNT_PATH}
+        target: /share
+      - type: bind
+        source: ${OUTPUT_MOUNT_PATH}
+        target: /logs
+    expose:
+      - "5000"
+    user: "0:0"
+    networks:
+      - app-network
 
   custom-template:
     container_name: custom-template
     image: mcr.microsoft.com/azure-cognitive-services/form-recognizer/custom-template-3.1:latest
     restart: always
+    depends_on:
+      - layout
     user: "0:0"
     environment:
       EULA: accept
@@ -22,13 +54,13 @@ services:
       BILLING: ${FORM_RECOGNIZER_ENDPOINT_URI}
 
       # ASP.NET Core/DI config uses double underscores in env vars:
-      Logging__Console__LogLevel__Default: Information
+      AzureCognitiveServiceLayoutHost: http://layout:5000
+      Logging:Console:LogLevel:Default: Information
       SharedRootFolder: /share
       Mounts__Shared: /share
       Mounts__Output: /logs
       # If you also run the Layout container:
       # AzureCognitiveServiceLayoutHost: http://layout:5000
-
     volumes:
       - type: bind
         source: ${SHARED_MOUNT_PATH}
@@ -40,6 +72,8 @@ services:
         # SELinux hosts: ${OUTPUT_MOUNT_PATH}:/logs:z
     expose:
       - "5000"
+    networks:
+      - app-network
 
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://localhost:5000/"]
@@ -54,6 +88,9 @@ services:
     environment:
       ONPREM_LOCALFILE_BASEPATH: /onprem_folder
       STORAGE_DATABASE_CONNECTION_STRING: /onprem_db/Application.db
+    depends_on:
+      custom-template:
+        condition: service_healthy   # ignored by some podman-compose versions, but harmless
     volumes:
       - type: bind
         source: ${FILE_MOUNT_PATH}
@@ -64,3 +101,6 @@ services:
     ports:
       - "5001:5001"
     user: "0:0"
+    networks:
+      - app-network
+
